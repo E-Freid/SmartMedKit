@@ -7,15 +7,15 @@ const facingModesEnum = {
   ENV: "environment"
 }
 
-const WebcamCapture = ({ setImage }) => {
+const WebcamCapture = ({ onCapture }) => {
   const [facingMode, setFacingMode] = useState(facingModesEnum.user);
   const webcamRef = useRef(null);
   const capture = useCallback(
-    async () => {
+     () => {
       const imageSrc = webcamRef.current.getScreenshot();
-      setImage(imageSrc);
+      onCapture(imageSrc);
     },
-    [webcamRef, setImage]
+    [webcamRef, onCapture]
   );
   const flipCamera = useCallback(
     () => {

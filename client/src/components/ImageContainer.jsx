@@ -4,6 +4,7 @@ import MedKitModel from "../services/MedKitModel";
 import WebcamCapture from "./WebcamCapture";
 import ImageUploader from "./ImageUploader";
 import ImageViewer from "./ImageViewer";
+import InjuryResult from "./InjuryResult";
 
 const imageOptionsMap = {
   UPLOAD: 'upload',
@@ -13,21 +14,24 @@ const imageOptionsMap = {
 
 const ImageContainer = () => {
   const [image, setImage] = useState(null);
+  const [injuryData, setInjuryData] = useState(null);
   const [selectedOption, setSelectedOption] = useState(imageOptionsMap.UNINITIALIZED);
 
-  const handleModelSend = async () => {
+  const handleImageSend = async () => {
     if (image) {
       try {
-        const response = await MedKitModel.sendPhoto(image);
-        console.log({response});
+        const modelResponse = await MedKitModel.sendPhoto(image);
+        setInjuryData(modelResponse);
       } catch (e) {
-        console.log(e.message);
+        console.error('Error sending injury image to MedKit Model:', e);
       }
     }
   };
 
-  const handleRetryClick = () => {
+  const handleRetry = () => {
     setImage(null);
+    setSelectedOption(imageOptionsMap.UNINITIALIZED);
+    setInjuryData(null);
   };
 
   return (
@@ -38,13 +42,24 @@ const ImageContainer = () => {
           <button onClick={() => setSelectedOption(imageOptionsMap.CAPTURE)}>Capture Photo</button>
         </div>
       )}
-      <div>
-        {image === null && selectedOption === imageOptionsMap.UPLOAD && <ImageUploader setImage={setImage} image={image}/>}
-        {image === null && selectedOption === imageOptionsMap.CAPTURE && <WebcamCapture setImage={setImage}/>}
-        {image && <ImageViewer image={image} imageDescription="User injory" />}
-      </div>
-      {image !== null && <button onClick={handleModelSend}>Send To Model</button>}
-      {image !== null && <button onClick={handleRetryClick}>Let Me Try Other Image</button>}
+
+      {!image && selectedOption === imageOptionsMap.UPLOAD && <ImageUploader onUpload={setImage}/>}
+      {!image && selectedOption === imageOptionsMap.CAPTURE && <WebcamCapture onCapture={setImage}/>}
+      {image && !injuryData && (
+        <div>
+          <ImageViewer image={image} imageDescription="Captured Injury Image" />
+          <button onClick={handleImageSend}>Send</button>
+          <button onClick={handleRetry}>Retry</button>
+        </div>
+      )}
+
+      {injuryData && (
+        <InjuryResult
+          injuryType={injuryData.class}
+          successRate={injuryData.confidence}
+          onRetry={handleRetry}
+        />
+      )}
     </div>
   );
 };

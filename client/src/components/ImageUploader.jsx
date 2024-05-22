@@ -1,12 +1,12 @@
 import React from 'react';
 
-const ImageUploader = ({ setImage }) => {
+const ImageUploader = ({ onUpload }) => {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onload = (event) => {
-        setImage(event.target.result);
+        onUpload(event.target.result);
       };
       reader.readAsDataURL(file);
     }
