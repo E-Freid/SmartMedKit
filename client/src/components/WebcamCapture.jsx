@@ -1,5 +1,4 @@
 import React, {useState, useRef, useCallback} from "react";
-import MedKitModel from "../services/MedKitModel";
 import Webcam from 'react-webcam';
 
 
@@ -8,23 +7,15 @@ const facingModesEnum = {
   ENV: "environment"
 }
 
-const WebcamCapture = () => {
+const WebcamCapture = ({ setImage }) => {
   const [facingMode, setFacingMode] = useState(facingModesEnum.user);
   const webcamRef = useRef(null);
   const capture = useCallback(
     async () => {
       const imageSrc = webcamRef.current.getScreenshot();
-
-      if (imageSrc) {
-        try {
-          const response = await MedKitModel.sendPhoto(imageSrc);
-          console.log({response});
-        } catch (e) {
-          console.log(e.message);
-        }
-      }
+      setImage(imageSrc);
     },
-    [webcamRef]
+    [webcamRef, setImage]
   );
   const flipCamera = useCallback(
     () => {
