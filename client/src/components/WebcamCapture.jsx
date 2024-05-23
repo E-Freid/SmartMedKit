@@ -1,13 +1,10 @@
 import React, {useState, useRef, useCallback} from "react";
+import {facingModesEnum} from "../utilities/consts";
+import {Button} from "react-bootstrap";
+
 import Webcam from 'react-webcam';
 
-
-const facingModesEnum = {
-  USER: "user",
-  ENV: "environment"
-}
-
-const WebcamCapture = ({ onCapture }) => {
+const WebcamCapture = ({ onCapture, isImageSelected }) => {
   const [facingMode, setFacingMode] = useState(facingModesEnum.user);
   const webcamRef = useRef(null);
   const capture = useCallback(
@@ -31,16 +28,22 @@ const WebcamCapture = ({ onCapture }) => {
 
   return (
     <>
-      <Webcam
-        audio={false}
-        width={400}
-        height={400}
-        ref={webcamRef}
-        screenshotFormat="image/jpeg"
-        videoConstraints={videoConstraints}
-      />
-      <button onClick={capture}>Capture photo</button>
-      <button onClick={flipCamera}>Flip Camera</button>
+      <h3>Capture Your Injury Live</h3>
+      {!isImageSelected && (
+        <>
+          <Webcam
+            audio={false}
+            width={400}
+            height={400}
+            ref={webcamRef}
+            screenshotFormat="image/jpeg"
+            videoConstraints={videoConstraints}
+          />
+          <Button className="m-3" variant="primary" onClick={capture}>Capture photo</Button>
+          <Button variant="secondary" onClick={flipCamera}>Flip Camera</Button>
+        </>
+      )}
+
     </>
   );
 };

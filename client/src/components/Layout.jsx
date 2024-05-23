@@ -11,7 +11,7 @@ const Layout = ({ children }) => {
           </div>
         </Container>
       </Navbar>
-      <Container>
+      <Container className="text-center mt-5">
         {children}
       </Container>
     </>

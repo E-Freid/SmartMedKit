@@ -1,21 +1,35 @@
 import React from 'react';
+import { Modal, Button } from 'react-bootstrap';
 import Injury from '../utilities/Injury';
 
-const InjuryResult = ({ injuryType, successRate, onRetry }) => {
+const InjuryResultModal = ({ injuryType, successRate, onRetry, onHide }) => {
   return (
-    <div>
-      <h2>Injury Result</h2>
-      <p>Type: {injuryType}</p>
-      <p>Success Rate: {successRate}</p>
-      <p>Instructions: {Injury.getInstructions(injuryType)}</p>
-      {successRate < 0.9 && (
-        <div>
-          <p>The success rate is too low. Please try capturing the photo again.</p>
-          <button onClick={onRetry}>Retry</button>
-        </div>
-      )}
-    </div>
+    <Modal show={true} onHide={onHide}>
+      <Modal.Header closeButton>
+        <Modal.Title>Injury Result</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <p>Type: {injuryType}</p>
+        <p>Success Rate: {successRate}</p>
+        <p>Instructions: {Injury.getInstructions(injuryType)}</p>
+        {successRate < 0.9 && (
+          <div>
+            <p>The success rate is too low. Please try capturing the photo again.</p>
+          </div>
+        )}
+      </Modal.Body>
+      <Modal.Footer>
+        {successRate < 0.9 && (
+          <Button variant="primary" onClick={onRetry}>
+            Retry
+          </Button>
+        )}
+        <Button variant="secondary" onClick={onHide}>
+          Close
+        </Button>
+      </Modal.Footer>
+    </Modal>
   );
 };
 
-export default InjuryResult;
+export default InjuryResultModal;
