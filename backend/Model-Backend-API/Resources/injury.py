@@ -50,6 +50,7 @@ def predict():
         try:
             db.session.add(event)
             db.session.commit()
+            print("Added entry to database")
         except SQLAlchemyError:
             print("Failed inserting into database")
 
