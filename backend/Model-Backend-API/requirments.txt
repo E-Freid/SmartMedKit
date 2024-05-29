@@ -5,3 +5,4 @@ numpy
 flask_sqlalchemy
 flask-migrate
 datetime
+flask-smorest
