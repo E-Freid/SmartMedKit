@@ -4,6 +4,7 @@ from db import db
 from flask import Flask
 from flask_migrate import Migrate
 from flask_smorest import Api
+from flask_cors import CORS
 
 from Resources.injury import blp as injury_blp
 from Resources.kit import blp as kit_blp
@@ -12,6 +13,8 @@ from Resources.kit_admin import blp as kit_admin_blp
 
 def create_app(db_url=None):
     app = Flask(__name__)
+
+    CORS(app)
 
     app.config["PROPAGATE_EXCEPTIONS"] = True
     app.config["API_TITLE"] = "Workshop Backend REST API"
