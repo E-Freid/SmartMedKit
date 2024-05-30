@@ -4,11 +4,11 @@ from flask import jsonify
 from sqlalchemy.exc import SQLAlchemyError, IntegrityError
 
 from db import db
-from Models import KitModel
+from Models import KitModel, AdminModel
 
 from schemas import KitSchema, KitUpdateSchema
 
-blp = Blueprint("kits", __name__)
+blp = Blueprint("kits", __name__,  description="Operations on kits")
 
 
 @blp.route("/kit")

@@ -25,3 +25,14 @@ class KitSchema(PlainKitSchema):
 class KitUpdateSchema(PlainKitSchema):
     name = fields.Str(required=False)
     location = fields.Str(required=False)
+
+
+class AdminUpdateSchema(PlainAdminSchema):
+    first_name = fields.Str(required=False)
+    last_name = fields.Str(required=False)
+    phone_num = fields.Str(required=False)
+
+
+class KitAdminSchema(Schema):
+    kit_id = fields.Int(required=True)
+    admin_id = fields.Int(required=True)

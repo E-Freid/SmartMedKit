@@ -13,7 +13,7 @@ from Models import EventModel
 model_path = os.path.join(os.path.dirname(__file__), '../..', 'Model', 'best_model_finetuned_v3_adjusted.keras')
 model = tf.keras.models.load_model(model_path)
 
-blp = Blueprint("injury analysis", __name__)
+blp = Blueprint("injury analysis", __name__, description="Operations on injury analysis")
 
 
 def get_image_from_request_file(file):
