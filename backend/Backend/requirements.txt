@@ -7,3 +7,5 @@ flask-migrate
 datetime
 flask-smorest
 flask-cors
+celery
+redis

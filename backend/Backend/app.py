@@ -1,4 +1,5 @@
 import os.path
+import atexit
 from db import db
 
 from flask import Flask
@@ -12,6 +13,7 @@ from Resources.admin import blp as admin_blp
 from Resources.kit_admin import blp as kit_admin_blp
 from Resources.kit_compartment import blp as kit_compartment_blp
 from Resources.measurements import blp as measurements_blp
+
 
 def create_app(db_url=None):
     app = Flask(__name__)
@@ -29,6 +31,9 @@ def create_app(db_url=None):
 
     app.config["SQLALCHEMY_DATABASE_URI"] = db_url or os.getenv("DATABASE_URL", "sqlite:///data.db")
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
+    app.config["broker_url"] = os.getenv("BROKER_URL", "redis://localhost:6379/0")
+    app.config["result_backend"] = os.getenv("RESULT_BACKEND", "redis://localhost:6379/0")
 
     db.init_app(app)
     migrate = Migrate(app, db, compare_type=False)
