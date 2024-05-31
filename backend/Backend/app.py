@@ -14,9 +14,6 @@ from Resources.kit_admin import blp as kit_admin_blp
 from Resources.kit_compartment import blp as kit_compartment_blp
 from Resources.measurements import blp as measurements_blp
 
-from Celery.celery_config import make_celery
-from Celery.utils import start_celery, cleanup
-
 
 def create_app(db_url=None):
     app = Flask(__name__)
@@ -35,13 +32,12 @@ def create_app(db_url=None):
     app.config["SQLALCHEMY_DATABASE_URI"] = db_url or os.getenv("DATABASE_URL", "sqlite:///data.db")
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
-    app.config["CELERY_BROKER_URL"] = os.getenv("CELERY_BROKER_URL", "redis://localhost:6379/0")
-    app.config["CELERY_RESULT_BACKEND"] = os.getenv("CELERY_RESULT_BACKEND", "redis://localhost:6379/0")
+    app.config["broker_url"] = os.getenv("BROKER_URL", "redis://localhost:6379/0")
+    app.config["result_backend"] = os.getenv("RESULT_BACKEND", "redis://localhost:6379/0")
 
     db.init_app(app)
     migrate = Migrate(app, db, compare_type=False)
 
-    celery = make_celery(app)
     api = Api(app)
 
     api.register_blueprint(injury_blp)
@@ -51,14 +47,9 @@ def create_app(db_url=None):
     api.register_blueprint(kit_compartment_blp)
     api.register_blueprint(measurements_blp)
 
-    return app, celery
+    return app
 
-
-app, celery = create_app()
-
-import Celery.tasks
 
 if __name__ == '__main__':
-    worker, beat = start_celery()
-    atexit.register(cleanup, worker, beat)
+    app = create_app()
     app.run(debug=True)
