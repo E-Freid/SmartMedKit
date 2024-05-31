@@ -15,7 +15,7 @@ Clone the repository to your local machine:
 
 ```
 git clone https://github.com/yourusername/SmartMedKit.git
-cd yourrepository/Backend
+cd SmartMedKit/Backend
 ```
 
 ### 2. download and place the model to /Backend/Resouce folder (where injury.py located)
