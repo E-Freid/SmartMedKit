@@ -1,9 +1,0 @@
-Flask
-tensorflow
-Pillow
-numpy
-flask_sqlalchemy
-flask-migrate
-datetime
-flask-smorest
-flask-cors
