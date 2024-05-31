@@ -12,3 +12,4 @@ class MeasurementsModel(db.Model):
     timestamp = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
 
     compartment = db.relationship("KitCompartmentModel", back_populates="measurements")
+    kit = db.relationship("KitModel", back_populates="measurements")

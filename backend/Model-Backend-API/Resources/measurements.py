@@ -20,7 +20,7 @@ class Measurements(MethodView):
     @blp.response(201, MeasurementSchema)
     def post(self, new_measurement):
         kit = KitModel.query.get(new_measurement["kit_id"])
-        compartment = KitCompartmentModel.query.get(new_measurement["compartment_id"])
+        compartment = KitCompartmentModel.query.get((new_measurement["kit_id"], new_measurement["compartment_id"]))
         if not kit:
             abort(404, message="Kit not found")
         if not compartment:
