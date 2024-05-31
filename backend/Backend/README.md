@@ -28,7 +28,7 @@ docker-compose build
 
 ### 4. Start the Service
 ```
-Start the Services
+docker-compose up
 ```
 
 ### 5. Accesing the web REST API
