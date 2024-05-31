@@ -51,11 +51,14 @@ def create_app(db_url=None):
     api.register_blueprint(kit_compartment_blp)
     api.register_blueprint(measurements_blp)
 
-    return app
+    return app, celery
 
+
+app, celery = create_app()
+
+import Celery.tasks
 
 if __name__ == '__main__':
-    app = create_app()
     worker, beat = start_celery()
     atexit.register(cleanup, worker, beat)
     app.run(debug=True)

@@ -2,8 +2,8 @@ import subprocess
 
 
 def start_celery():
-    worker = subprocess.Popen(['celery', '-A', 'Backend.Celery.celery_config', 'worker', '--loglevel=info'])
-    beat = subprocess.Popen(['celery', '-A', 'Backend.Celery.celery_config', 'beat', '--loglevel=info'])
+    worker = subprocess.Popen(['celery', '-A', 'app', 'worker', '--loglevel=info'])
+    beat = subprocess.Popen(['celery', '-A', 'app', 'beat', '--loglevel=info'])
     return worker, beat
 
 
