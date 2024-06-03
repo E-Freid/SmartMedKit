@@ -19,6 +19,25 @@ celery = make_celery(flask_app)
 THRESHOLD_RATIO = 0.25
 WINDOW_SIZE = 5
 
+
+def is_kit_empty(kit_id):
+    recent_measurements = MeasurementsModel.query.filter_by(kit_id=kit_id).order_by(
+        MeasurementsModel.timestamp.desc()).limit(WINDOW_SIZE).all()
+
+    if recent_measurements:
+        latest_measurement = recent_measurements[0]
+        maximum_weight = max(m.weight for m in recent_measurements)
+
+        if notify_if_below_threshold(latest_measurement.weight, maximum_weight * THRESHOLD_RATIO) or \
+                notify_if_below_moving_average(recent_measurements, latest_measurement.weight, THRESHOLD_RATIO,
+                                               WINDOW_SIZE) or \
+                notify_if_below_moving_average(recent_measurements, latest_measurement.weight, THRESHOLD_RATIO,
+                                               WINDOW_SIZE):
+            return True
+
+    return False
+
+
 @celery.task(name='notify_admins')
 def notify_admins():
     with flask_app.app_context():
@@ -27,28 +46,14 @@ def notify_admins():
             kits_to_notify = set()
 
             for kit in kits:
-                recent_measurements = MeasurementsModel.query.filter_by(kit_id=kit.id).order_by(
-                    MeasurementsModel.timestamp.desc()).limit(WINDOW_SIZE).all()
-
-                if recent_measurements:
-                    latest_measurement = recent_measurements[0]
-                    maximum_weight = max(m.weight for m in recent_measurements)
-
-                    # Check if the threshold is crossed
-                    if notify_if_below_threshold(latest_measurement.weight, maximum_weight * THRESHOLD_RATIO):
-                        kits_to_notify.add(kit.id)
-
-                    # Check if the moving average is below the threshold
-                    if notify_if_below_moving_average(recent_measurements, latest_measurement.weight, THRESHOLD_RATIO, WINDOW_SIZE):
-                        kits_to_notify.add(kit.id)
-
-                    # Check if there is a downward trend
-                    if notify_if_downward_trend(recent_measurements):
-                        kits_to_notify.add(kit.id)
+                if is_kit_empty(kit.id):
+                    kits_to_notify.add(kit.id)
 
             for kit_id in kits_to_notify:
                 kit = KitModel.query.get(kit_id)
+
                 admins = kit.admins
+                admins = [admin for admin in admins if not any(notification.timestamp > datetime.datetime.utcnow() - datetime.timedelta(minutes=30) for notification in admin.notifications)]
 
                 notification = NotificationModel(timestamp=datetime.datetime.utcnow())
                 notification.kits.append(kit)
@@ -64,7 +69,7 @@ def notify_admins():
                 except Exception as e:
                     logger.error(f"Error in notify_admins task: {e}")
 
-            return f"Notified admins for {len(kits_to_notify)} kits"
+            return f"Notified {len(admins)} admins for {len(kits_to_notify)} kits"
 
         except Exception as e:
             logger.error(f"Error in notify_admins task: {e}")
