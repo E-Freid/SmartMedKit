@@ -13,6 +13,7 @@ from Resources.admin import blp as admin_blp
 from Resources.kit_admin import blp as kit_admin_blp
 from Resources.kit_compartment import blp as kit_compartment_blp
 from Resources.measurements import blp as measurements_blp
+from Resources.notification import blp as notification_blp
 
 
 def create_app(db_url=None):
@@ -46,6 +47,7 @@ def create_app(db_url=None):
     api.register_blueprint(kit_admin_blp)
     api.register_blueprint(kit_compartment_blp)
     api.register_blueprint(measurements_blp)
+    api.register_blueprint(notification_blp)
 
     return app
 
