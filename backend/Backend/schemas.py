@@ -54,8 +54,8 @@ class KitCompartmentSchema(PlainKitCompartmentSchema):
 
 
 class NotificationSchema(PlainNotificationSchema):
-    kit = fields.Nested(PlainKitSchema(), dump_only=True)
-    admin = fields.Nested(PlainAdminSchema(), dump_only=True)
+    kits = fields.List(fields.Nested(PlainKitSchema(), dump_only=True))
+    admins = fields.List(fields.Nested(PlainAdminSchema(), dump_only=True))
 
 
 class KitUpdateSchema(PlainKitSchema):

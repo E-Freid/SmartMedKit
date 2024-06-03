@@ -49,19 +49,20 @@ def notify_admins():
             for kit_id in kits_to_notify:
                 kit = KitModel.query.get(kit_id)
                 admins = kit.admins
+
+                notification = NotificationModel(timestamp=datetime.datetime.utcnow())
+                notification.kits.append(kit)
+
                 for admin in admins:
+                    notification.admins.append(admin)
                     logger.info(f"Sending notification to {admin.email} for kit {kit.name}")
                     send_email(admin.email, f"Notification for kit {kit.name}", f"Kit {kit.name} with id {kit_id} requires attention")
-                    # insert notification into database
-                    notification = NotificationModel(timestamp=datetime.datetime.utcnow())
-                    notification.admin.append(admin)
-                    notification.kit.append(kit)
-                    try:
-                        db.session.add(notification)
-                        db.session.commit()
-                    except Exception as e:
-                        logger.error(f"Error inserting notification into database: {e}")
-                        return "Failed"
+
+                try:
+                    db.session.add(notification)
+                    db.session.commit()
+                except Exception as e:
+                    logger.error(f"Error in notify_admins task: {e}")
 
             return f"Notified admins for {len(kits_to_notify)} kits"
 

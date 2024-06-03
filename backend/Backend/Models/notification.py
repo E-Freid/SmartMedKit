@@ -9,5 +9,5 @@ class NotificationModel(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     timestamp = db.Column(db.DateTime, default=datetime.datetime.utcnow)
 
-    admin = db.relationship("AdminModel", back_populates="notifications", secondary="admin_notifications")
-    kit = db.relationship("KitModel", back_populates="notifications", secondary="notification_kits")
+    admins = db.relationship("AdminModel", secondary="admin_notifications", back_populates="notifications")
+    kits = db.relationship("KitModel", secondary="notification_kits", back_populates="notifications")
