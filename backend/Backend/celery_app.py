@@ -1,8 +1,11 @@
 from app import create_app
 from Celery.celery_config import make_celery
-from Models import MeasurementsModel, KitModel
+from Models import MeasurementsModel, KitModel, NotificationModel
+from db import db
 from Celery.measurements_utils import notify_if_below_threshold, notify_if_below_moving_average, notify_if_downward_trend
 import logging
+import datetime
+from Notifications.notification import send_email
 
 # Setup logging
 logging.basicConfig(level=logging.INFO)
@@ -46,10 +49,20 @@ def notify_admins():
             for kit_id in kits_to_notify:
                 kit = KitModel.query.get(kit_id)
                 admins = kit.admins
+
+                notification = NotificationModel(timestamp=datetime.datetime.utcnow())
+                notification.kits.append(kit)
+
                 for admin in admins:
-                    # Implement notification logic here
-                    logger.info(f"Sending notification to {admin.phone_num} for kit {kit.name}")
-                    # send_notification(admin.phone_num, kit.name)  # Replace with actual notification function
+                    notification.admins.append(admin)
+                    logger.info(f"Sending notification to {admin.email} for kit {kit.name}")
+                    send_email(admin.email, f"Notification for kit {kit.name}", f"Kit {kit.name} with id {kit_id} requires attention")
+
+                try:
+                    db.session.add(notification)
+                    db.session.commit()
+                except Exception as e:
+                    logger.error(f"Error in notify_admins task: {e}")
 
             return f"Notified admins for {len(kits_to_notify)} kits"
 

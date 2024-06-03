@@ -9,3 +9,5 @@ flask-smorest
 flask-cors
 celery
 redis
+sendgrid
+python-dotenv

@@ -10,3 +10,4 @@ class KitModel(db.Model):
     admins = db.relationship("AdminModel", back_populates="kits", secondary="kit_admin")
     compartments = db.relationship("KitCompartmentModel", back_populates="kit")
     measurements = db.relationship("MeasurementsModel", back_populates="kit")
+    notifications = db.relationship("NotificationModel", back_populates="kits", secondary="notification_kits")
