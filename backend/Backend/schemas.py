@@ -5,7 +5,7 @@ class PlainAdminSchema(Schema):
     id = fields.Int(dump_only=True)
     first_name = fields.Str(required=True)
     last_name = fields.Str(required=True)
-    phone_num = fields.Str(required=True)
+    email = fields.Str(required=True)
 
 
 class PlainKitSchema(Schema):
@@ -54,7 +54,7 @@ class KitUpdateSchema(PlainKitSchema):
 class AdminUpdateSchema(PlainAdminSchema):
     first_name = fields.Str(required=False)
     last_name = fields.Str(required=False)
-    phone_num = fields.Str(required=False)
+    email = fields.Str(required=False)
 
 
 class KitAdminSchema(Schema):

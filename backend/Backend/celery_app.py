@@ -48,8 +48,8 @@ def notify_admins():
                 admins = kit.admins
                 for admin in admins:
                     # Implement notification logic here
-                    logger.info(f"Sending notification to {admin.phone_num} for kit {kit.name}")
-                    # send_notification(admin.phone_num, kit.name)  # Replace with actual notification function
+                    logger.info(f"Sending notification to {admin.email} for kit {kit.name}")
+                    # send_notification(admin.email, kit.name)  # Replace with actual notification function
 
             return f"Notified admins for {len(kits_to_notify)} kits"
 
