@@ -21,6 +21,12 @@ cd SmartMedKit/Backend
 ### 2. download and place the model to /Backend/Resouce folder (where injury.py located)
 https://www.dropbox.com/scl/fi/30rkhudwxwiuep1gtc6f1/best_model_finetuned_v3_adjusted.keras?rlkey=mtomnkp9ir4qaytj3pi2nbdsj&st=3onl0mrz&dl=0
 
+### 2.5 Create a .env file in the root directory of the project and add the following environment variables:
+```
+SENDGRID_API_KEY = The API key for SendGrid
+PASSWORD = SmartMedKit's Alerter mail password
+```
+
 ### 3. Build the Docker Image
 ```
 docker-compose build
