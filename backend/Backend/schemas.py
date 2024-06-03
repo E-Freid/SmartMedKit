@@ -27,14 +27,21 @@ class PlainKitCompartmentSchema(Schema):
     compartment_id = fields.Int(required=True)
 
 
+class PlainNotificationSchema(Schema):
+    id = fields.Int(dump_only=True)
+    timestamp = fields.DateTime(dump_only=True)
+
+
 class AdminSchema(PlainAdminSchema):
     kits = fields.List(fields.Nested(PlainKitSchema()), dump_only=True)
+    notifications = fields.List(fields.Nested(PlainNotificationSchema()), dump_only=True)
 
 
 class KitSchema(PlainKitSchema):
     admins = fields.List(fields.Nested(PlainAdminSchema()), dump_only=True)
     compartments = fields.List(fields.Nested(PlainKitCompartmentSchema()), dump_only=True)
     measurements = fields.List(fields.Nested(PlainMeasurementsSchema()), dump_only=True)
+    notifications = fields.List(fields.Nested(PlainNotificationSchema()), dump_only=True)
 
 
 class MeasurementSchema(PlainMeasurementsSchema):
@@ -44,6 +51,11 @@ class MeasurementSchema(PlainMeasurementsSchema):
 class KitCompartmentSchema(PlainKitCompartmentSchema):
     kit = fields.Nested(PlainKitSchema(), dump_only=True)
     measurements = fields.List(fields.Nested(PlainMeasurementsSchema()), dump_only=True)
+
+
+class NotificationSchema(PlainNotificationSchema):
+    kit = fields.Nested(PlainKitSchema(), dump_only=True)
+    admin = fields.Nested(PlainAdminSchema(), dump_only=True)
 
 
 class KitUpdateSchema(PlainKitSchema):

@@ -8,3 +8,4 @@ class AdminModel(db.Model):
     email = db.Column(db.String(40), unique=True, nullable=False)
 
     kits = db.relationship("KitModel", back_populates="admins", secondary="kit_admin")
+    notifications = db.relationship("NotificationModel", back_populates="admin", secondary="admin_notifications")

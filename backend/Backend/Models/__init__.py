@@ -4,3 +4,6 @@ from Models.kit import KitModel
 from Models.kit_admin import KitAdminModel
 from Models.kit_compartment import KitCompartmentModel
 from Models.measurements import MeasurementsModel
+from Models.notification import NotificationModel
+from Models.notification_kit import NotificationKitModel
+from Models.notification_admin import NotificationAdminModel
