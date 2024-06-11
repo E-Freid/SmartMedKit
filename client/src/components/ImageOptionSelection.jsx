@@ -12,7 +12,6 @@ const ImageOptionSelection = ({ onOptionSelection }) => {
           <Button
             variant="primary"
             size="lg"
-            block
             onClick={() => onOptionSelection(imgSelectionOptionsMap.UPLOAD)}
           >
             Upload Image
@@ -22,7 +21,6 @@ const ImageOptionSelection = ({ onOptionSelection }) => {
           <Button
             variant="success"
             size="lg"
-            block
             onClick={() => onOptionSelection(imgSelectionOptionsMap.CAPTURE)}
           >
             Capture Live

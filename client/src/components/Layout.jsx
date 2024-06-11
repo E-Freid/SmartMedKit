@@ -11,8 +11,8 @@ const Layout = ({ children }) => {
 
   return (
     <>
-      <Navbar variant="dark" bg="dark" expand={false}>
-        <Container fluid className="position-relative">
+      <Navbar variant="dark" bg="dark" expand={false} style={{minHeight: 55}}>
+        <Container fluid className="relative-container">
           {isAdminRoute && <AdminSideBar />}
           <Navbar.Brand className="position-absolute start-50 translate-middle-x">SmartMedKit</Navbar.Brand>
         </Container>
