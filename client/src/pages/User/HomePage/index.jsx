@@ -1,13 +1,13 @@
 import React, {useState} from "react";
-import {imgSelectionOptionsMap} from "../../utilities/consts";
-import MedKitModel from "../../services/MedKitModel";
+import {imgSelectionOptionsMap} from "../../../utilities/consts";
+import MedKitModel from "../../../services/MedKitModel";
 
-import ImageContainer from "../../components/ImageContainer";
-import Layout from "../../components/Layout";
-import ImageOptionSelection from "../../components/ImageOptionSelection";
-import ImageUploader from "../../components/ImageUploader";
-import WebcamCapture from "../../components/WebcamCapture";
-import InjuryResultModal from "../../components/InjuryResult";
+import ImageContainer from "../../../components/ImageContainer";
+import Layout from "../../../components/Layout";
+import ImageOptionSelection from "../../../components/ImageOptionSelection";
+import ImageUploader from "../../../components/ImageUploader";
+import WebcamCapture from "../../../components/WebcamCapture";
+import InjuryResultModal from "../../../components/InjuryResult";
 
 const HomePage = () => {
   const [selectedOption, setSelectedOption] = useState(imgSelectionOptionsMap.UNINITIALIZED);

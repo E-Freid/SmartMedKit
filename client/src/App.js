@@ -1,10 +1,15 @@
-import HomePage from "./pages/HomePage";
+import HomePage from "./pages/User/HomePage";
+import AdminHomePage from "./pages/Admin/HomePage";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 function App() {
   return (
-    <div>
-      <HomePage />
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/admin" element={<AdminHomePage />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
