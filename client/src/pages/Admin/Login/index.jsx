@@ -1,12 +1,13 @@
-import React, {useCallback} from 'react';
+import React from 'react';
 import { validationSchema } from './validationSchema';
 import AdminUser from '../../../services/AdminUser';
-import { FloatingLabel, Form, Button, Alert, Row, Col } from 'react-bootstrap';
+import { FloatingLabel, Form, Button, Alert } from 'react-bootstrap';
 import { useAuth } from '../../../state/AuthContext';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 
 import Layout from "../../../components/Layout";
+import ResponsiveForm from "../../../components/common/ResponsiveForm";
 
 const AdminLoginPage = () => {
   const [serverError, setServerError] = React.useState(null);
@@ -17,9 +18,9 @@ const AdminLoginPage = () => {
  const redirectBackToLastPage = () => {
    const redirectTo = location.state?.from || '/admin';
    navigate(redirectTo);
- }
+ };
 
-  const handleFormSubmission = useCallback(async (values, { setSubmitting, setFieldError }) => {
+  const handleFormSubmission = async (values, { setSubmitting, setFieldError }) => {
     try {
       const loginResult = await AdminUser.login(values);
       if (loginResult.success === false) {
@@ -43,7 +44,7 @@ const AdminLoginPage = () => {
     } finally {
       setSubmitting(false);
     }
-  }, []);
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -56,42 +57,39 @@ const AdminLoginPage = () => {
 
   return (
     <Layout noMenu>
-      <Row className="justify-content-center">
-        <Col xs={12} sm={8} md={6} lg={4}>
-          <Form onSubmit={formik.handleSubmit}>
-            {serverError && <Alert variant="danger">{serverError}</Alert>}
-            <FloatingLabel controlId="email" label="Email address" className="mb-3">
-              <Form.Control
-                type="email"
-                placeholder="name@example.com"
-                {...formik.getFieldProps('email')}
-                isInvalid={formik.touched.email && formik.errors.email}
-              />
-              {formik.touched.email && formik.errors.email ? (
-                <Form.Control.Feedback type="invalid">
-                  {formik.errors.email}
-                </Form.Control.Feedback>
-              ) : null}
-            </FloatingLabel>
-            <FloatingLabel controlId="password" label="Password" className="mb-3">
-              <Form.Control
-                type="password"
-                placeholder="Password"
-                {...formik.getFieldProps('password')}
-                isInvalid={formik.touched.password && formik.errors.password}
-              />
-              {formik.touched.password && formik.errors.password ? (
-                <Form.Control.Feedback type="invalid">
-                  {formik.errors.password}
-                </Form.Control.Feedback>
-              ) : null}
-            </FloatingLabel>
-            <Button type="submit" disabled={formik.isSubmitting} className="w-100">
-              {formik.isSubmitting ? 'Logging in...' : 'Login'}
-            </Button>
-          </Form>
-        </Col>
-      </Row>
+      <h2>Login</h2>
+      <ResponsiveForm onSubmit={formik.handleSubmit}>
+        {serverError && <Alert variant="danger">{serverError}</Alert>}
+        <FloatingLabel controlId="email" label="Email address" className="mb-3">
+          <Form.Control
+            type="email"
+            placeholder="name@example.com"
+            {...formik.getFieldProps('email')}
+            isInvalid={formik.touched.email && formik.errors.email}
+          />
+          {formik.touched.email && formik.errors.email ? (
+            <Form.Control.Feedback type="invalid">
+              {formik.errors.email}
+            </Form.Control.Feedback>
+          ) : null}
+        </FloatingLabel>
+        <FloatingLabel controlId="password" label="Password" className="mb-3">
+          <Form.Control
+            type="password"
+            placeholder="Password"
+            {...formik.getFieldProps('password')}
+            isInvalid={formik.touched.password && formik.errors.password}
+          />
+          {formik.touched.password && formik.errors.password ? (
+            <Form.Control.Feedback type="invalid">
+              {formik.errors.password}
+            </Form.Control.Feedback>
+          ) : null}
+        </FloatingLabel>
+        <Button type="submit" disabled={formik.isSubmitting} className="w-100">
+          {formik.isSubmitting ? 'Logging in...' : 'Login'}
+        </Button>
+      </ResponsiveForm>
     </Layout>
   );
 };

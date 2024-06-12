@@ -55,6 +55,22 @@ class AdminUser {
       return resultObject;
     }
   }
+
+  async addKit(adminId, kitId) {
+    try {
+      const payload = { kit_id: Number(kitId), admin_id: Number(adminId) };
+      await this.api.post('/kit_admin', payload);
+      return Promise.resolve();
+    } catch (error) {
+      const errorObj = error.response.data;
+      if (error.response.status === 404) {
+        errorObj.message = 'Kit does not exists';
+      } else if(!errorObj.message) {
+        errorObj.message = 'Unable to add kit. Something went wrong...'
+      }
+      throw(error.response.data);
+    }
+  }
 }
 
 const instance = new AdminUser();
