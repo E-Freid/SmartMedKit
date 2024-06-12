@@ -1,4 +1,5 @@
-from marshmallow import Schema, fields
+from marshmallow import Schema, fields, post_load
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
 class PlainAdminSchema(Schema):
@@ -6,7 +7,13 @@ class PlainAdminSchema(Schema):
     first_name = fields.Str(required=True)
     last_name = fields.Str(required=True)
     email = fields.Str(required=True)
+    password = fields.Str(required=True, load_only=True)
 
+    @post_load
+    def hash_password(self, data, **kwargs):
+        if "password" in data:
+            data["password"] = generate_password_hash(data["password"], method="pbkdf2:sha256")
+        return data
 
 class PlainKitSchema(Schema):
     id = fields.Int(dump_only=True)
@@ -72,3 +79,8 @@ class AdminUpdateSchema(PlainAdminSchema):
 class KitAdminSchema(Schema):
     kit_id = fields.Int(required=True)
     admin_id = fields.Int(required=True)
+
+
+class AdminLoginSchema(Schema):
+    email = fields.Str(required=True)
+    password = fields.Str(required=True)
