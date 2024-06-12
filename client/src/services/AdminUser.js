@@ -11,48 +11,22 @@ class AdminUser {
     return AdminUser.instance;
   }
 
-  async loginSuccessTest(values) {
-    return Promise.resolve({
-      success: true,
-      user: { id: 1, email: values.email },
-      moreInfo: null
-    });
-  }
-
-  async loginFailTest(values) {
-    return Promise.resolve({
-      success: false,
-      user: null,
-      moreInfo: {
-        errors: {
-          email: 'Email does not exists'
-        }
-      }
-    });
-  }
-
   async login(values) {
-    let resultObject = {
-      success: false,
-      user: null,
-      moreInfo: null
-    }
-
     try {
-      const response = await this.api.post('/admin/login', values);
-      resultObject.success = true;
-      resultObject.user = response.data;
+      const response = await this.api.post('/admin/authorize', values);
+      return response.data; //User Data
     } catch (error) {
+      let resultObj = {};
       if (error.response && error.response.data) {
         if (typeof error.response.data === 'object')
-          resultObject.moreInfo.errors = error.response.data;
+          resultObj.errors = error.response.data;
         else
-          resultObject.moreInfo.message = error.response.data?.message || 'Unable to Login';
+          resultObj.message = error.response.data?.message || 'Unable to Login';
       } else {
-        resultObject.moreInfo.message = 'An unexpected error occurred.';
+        resultObj.message = 'An unexpected error occurred.';
       }
-    } finally {
-      return resultObject;
+
+      throw(resultObj);
     }
   }
 

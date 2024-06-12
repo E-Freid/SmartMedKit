@@ -22,13 +22,9 @@ const AdminLoginPage = () => {
 
   const handleFormSubmission = async (values, { setSubmitting, setFieldError }) => {
     try {
-      const loginResult = await AdminUser.login(values);
-      if (loginResult.success === false) {
-        throw(loginResult.moreInfo);
-      }
-
+      const loggedInUser = await AdminUser.login(values);
       setUserLoggedIn();
-      set_user(loginResult.user);
+      set_user(loggedInUser);
       setServerError(null);
       redirectBackToLastPage();
     } catch (ex) {
