@@ -5,7 +5,7 @@ import '../styles/layout.css';
 
 import AdminSideBar from "./Admin/AdminSideBar";
 
-const Layout = ({ children }) => {
+const Layout = ({ children, noMenu }) => {
   const location = useLocation();
   const isAdminRoute = location.pathname.startsWith('/admin');
 
@@ -13,7 +13,7 @@ const Layout = ({ children }) => {
     <>
       <Navbar variant="dark" bg="dark" expand={false} style={{minHeight: 55}}>
         <Container fluid className="relative-container">
-          {isAdminRoute && <AdminSideBar />}
+          {isAdminRoute && !noMenu && <AdminSideBar />}
           <Navbar.Brand className="position-absolute start-50 translate-middle-x">SmartMedKit</Navbar.Brand>
         </Container>
       </Navbar>
