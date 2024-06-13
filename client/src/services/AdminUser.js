@@ -45,6 +45,23 @@ class AdminUser {
       throw(error.response.data);
     }
   }
+
+  async getRegisteredKits(adminId) {
+    try {
+      let kits;
+      const response = await this.api.get(`/admin/${adminId}`);
+
+      if(response.data && response.data.kits) {
+        kits = response.data.kits;
+      } else {
+        kits = [];
+      }
+
+      return kits;
+    } catch (error) {
+      throw new Error(error.response?.data?.message || 'Server Error');
+    }
+  }
 }
 
 const instance = new AdminUser();

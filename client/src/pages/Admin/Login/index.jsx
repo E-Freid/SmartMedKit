@@ -53,7 +53,7 @@ const AdminLoginPage = () => {
 
   return (
     <Layout noMenu>
-      <h2>Login</h2>
+      <h2 className="mb-5">Login</h2>
       <ResponsiveForm onSubmit={formik.handleSubmit}>
         {serverError && <Alert variant="danger">{serverError}</Alert>}
         <FloatingLabel controlId="email" label="Email address" className="mb-3">
