@@ -1,0 +1,24 @@
+.sidebar {
+    background-color:  #f6f8fa;
+    border-right: 4px solid #e1e4e8;
+    padding-top: 20px;
+}
+
+.nav-link {
+    color: #24292e; /* Dark text */
+    font-size: 16px;
+    padding: 10px 15px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
+.nav-link:hover {
+    background-color: #ebedf0; /* Light hover effect */
+    color: #0366d6; /* Dark blue text on hover */
+}
+
+.active {
+    background-color: #e1e4e8; /* Light grey for active link */
+    color: #0366d6 !important; /* Dark blue text for active link */
+}
