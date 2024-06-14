@@ -32,6 +32,11 @@ class PlainMeasurementsSchema(Schema):
 class PlainKitCompartmentSchema(Schema):
     kit_id = fields.Int(required=True)
     compartment_id = fields.Int(required=True)
+    max_weight = fields.Float(required=True)
+
+
+class KitCompartmentWeightUpdateSchema(Schema):
+    weight = fields.Float(required=True)
 
 
 class PlainNotificationSchema(Schema):
