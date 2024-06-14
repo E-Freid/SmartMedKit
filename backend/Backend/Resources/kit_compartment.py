@@ -5,7 +5,7 @@ from schemas import KitCompartmentSchema, KitCompartmentWeightUpdateSchema
 from datetime import datetime
 
 from db import db
-from Models import KitCompartmentModel, KitModel
+from Models import KitCompartmentModel, KitModel, MeasurementsModel
 
 blp = Blueprint("kit_compartments", __name__, description="Operations on kit compartments")
 
@@ -61,7 +61,6 @@ class KitCompartmentDetail(MethodView):
         db.session.commit()
         return {"message": "Kit compartment deleted"}, 200
 
-
     @blp.arguments(KitCompartmentWeightUpdateSchema)
     @blp.response(200, KitCompartmentSchema)
     def patch(self, update_data, kit_id, compartment_id):
@@ -71,8 +70,10 @@ class KitCompartmentDetail(MethodView):
             abort(404, message="Kit compartment not found")
 
         kit_compartment.max_weight = update_data["weight"]
-        # also update a new measurement in the db
+        measurement = MeasurementsModel(kit_id=kit_id, compartment_id=compartment_id, weight=update_data["weight"],
+                                       timestamp=datetime.utcnow())
         try:
+            db.session.add(measurement)
             db.session.commit()
         except SQLAlchemyError:
             abort(500, message="An error occurred while updating the kit compartment")
