@@ -42,7 +42,7 @@ class AdminUser {
       } else if(!errorObj.message) {
         errorObj.message = 'Unable to add kit. Something went wrong...'
       }
-      throw(error.response.data);
+      throw(errorObj);
     }
   }
 
@@ -60,6 +60,40 @@ class AdminUser {
       return kits;
     } catch (error) {
       throw new Error(error.response?.data?.message || 'Server Error');
+    }
+  }
+
+  async getKitById(kitId) {
+    try {
+      const response = await this.api.get(`/kit/${kitId}`);
+      return response.data;
+    } catch (error) {
+      //TODO: handle errors
+    }
+  }
+
+  async removeKit(adminId, kitId) {
+    try {
+      const payload = { kit_id: Number(kitId), admin_id: Number(adminId) };
+      await this.api.delete('/kit_admin', {data: payload});
+      return Promise.resolve();
+    } catch (error) {
+      const errorObj = error.response.data;
+      if (error.response.status === 404) {
+        errorObj.message = 'Kit does not exists';
+      } else if(!errorObj.message) {
+        errorObj.message = 'Unable to delete kit. Something went wrong...'
+      }
+      throw(errorObj);
+    }
+  }
+
+  async editKit(kitId, kitData) {
+    try {
+      const response = await this.api.put(`/kit/${kitId}`, kitData);
+      return response.data; // Return Updated Kit Data
+    } catch (error) {
+      // TODO: handle errors
     }
   }
 }
