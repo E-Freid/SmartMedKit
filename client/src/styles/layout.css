@@ -1,0 +1,13 @@
+/* Navbar related CSS */
+.position-relative {
+    position: relative;
+}
+.position-absolute {
+    position: absolute;
+}
+.start-50 {
+    left: 50%;
+}
+.translate-middle-x {
+    transform: translateX(-50%);
+}

@@ -5,7 +5,7 @@ import {Button} from "react-bootstrap";
 import Webcam from 'react-webcam';
 
 const WebcamCapture = ({ onCapture, isImageSelected }) => {
-  const [facingMode, setFacingMode] = useState(facingModesEnum.user);
+  const [facingMode, setFacingMode] = useState(facingModesEnum.USER);
   const webcamRef = useRef(null);
   const capture = useCallback(
      () => {
