@@ -2,6 +2,7 @@ from flask_smorest import Blueprint, abort
 from flask.views import MethodView
 from sqlalchemy.exc import IntegrityError, SQLAlchemyError
 from schemas import KitCompartmentSchema, KitCompartmentWeightUpdateSchema
+from datetime import datetime
 
 from db import db
 from Models import KitCompartmentModel, KitModel
@@ -24,10 +25,11 @@ class KitCompartment(MethodView):
         compartment_id = new_data["compartment_id"]
 
         kit = KitModel.query.get(kit_id)
+
         if not kit:
             abort(404, message="Kit not found")
 
-        new_kit_compartment = KitCompartmentModel(kit_id=kit_id, compartment_id=compartment_id)
+        new_kit_compartment = KitCompartmentModel(**new_data)
         db.session.add(new_kit_compartment)
 
         try:
@@ -60,15 +62,18 @@ class KitCompartmentDetail(MethodView):
         return {"message": "Kit compartment deleted"}, 200
 
 
-@blp.route("/kit_compartments/<int:kit_id>/<int:compartment_id>/max_weight")
-class KitCompartmentWeight(MethodView):
     @blp.arguments(KitCompartmentWeightUpdateSchema)
     @blp.response(200, KitCompartmentSchema)
-    def put(self, new_data, kit_id, compartment_id):
-        """Update the maximum weight of a kit compartment"""
+    def patch(self, update_data, kit_id, compartment_id):
+        """Update the weight of a kit compartment"""
         kit_compartment = KitCompartmentModel.query.get((kit_id, compartment_id))
         if not kit_compartment:
             abort(404, message="Kit compartment not found")
-        kit_compartment.max_weight = new_data["weight"]
-        db.session.commit()
+
+        kit_compartment.max_weight = update_data["weight"]
+        # also update a new measurement in the db
+        try:
+            db.session.commit()
+        except SQLAlchemyError:
+            abort(500, message="An error occurred while updating the kit compartment")
         return kit_compartment
