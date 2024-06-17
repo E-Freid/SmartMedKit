@@ -24,7 +24,7 @@ class PlainKitSchema(Schema):
 class PlainMeasurementsSchema(Schema):
     id = fields.Int(dump_only=True)
     weight = fields.Float(required=True)
-    timestamp = fields.DateTime(required=True)
+    timestamp = fields.Int(required=True)
     kit_id = fields.Int(required=True)
     compartment_id = fields.Int(required=True)
 
@@ -41,7 +41,7 @@ class KitCompartmentWeightUpdateSchema(Schema):
 
 class PlainNotificationSchema(Schema):
     id = fields.Int(dump_only=True)
-    timestamp = fields.DateTime(dump_only=True)
+    timestamp = fields.Int(dump_only=True)
 
 
 class AdminSchema(PlainAdminSchema):

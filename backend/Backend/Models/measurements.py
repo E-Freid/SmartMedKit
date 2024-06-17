@@ -1,5 +1,5 @@
 from db import db
-from datetime import datetime
+from time import time
 
 
 class MeasurementsModel(db.Model):
@@ -9,7 +9,7 @@ class MeasurementsModel(db.Model):
     kit_id = db.Column(db.Integer, db.ForeignKey("kits.id"), nullable=False)
     compartment_id = db.Column(db.Integer, db.ForeignKey("kit_Compartments.compartment_id"), nullable=False)
     weight = db.Column(db.Float(precision=2), nullable=False)
-    timestamp = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+    timestamp = db.Column(db.Integer, default=int(time()), nullable=False)
 
     compartment = db.relationship("KitCompartmentModel", back_populates="measurements")
     kit = db.relationship("KitModel", back_populates="measurements")

@@ -1,5 +1,5 @@
 from db import db
-import datetime
+from time import time
 
 
 class NotificationModel(db.Model):
@@ -7,7 +7,7 @@ class NotificationModel(db.Model):
     __tablename__ = "notifications"
 
     id = db.Column(db.Integer, primary_key=True)
-    timestamp = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+    timestamp = db.Column(db.Integer, default=int(time()), nullable=False)
 
     admins = db.relationship("AdminModel", secondary="admin_notifications", back_populates="notifications")
     kits = db.relationship("KitModel", secondary="notification_kits", back_populates="notifications")
