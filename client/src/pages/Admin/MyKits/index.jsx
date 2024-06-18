@@ -15,10 +15,9 @@ const MyKitsPage = () => {
     const fetchKits = async () => {
       try {
         const kits = await AdminUser.getRegisteredKits(user.id);
-        console.log({kits});
         setKits(kits);
       } catch (e) {
-        console.log(e);
+        console.error(e);
       }
     }
 
