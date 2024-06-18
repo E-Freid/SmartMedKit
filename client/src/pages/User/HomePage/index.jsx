@@ -45,7 +45,8 @@ const HomePage = () => {
 
   const shouldRenderInjuryResultModal = () => {
     return Boolean(injuryData);
-  }
+  };
+
   const renderContent = () => {
     let result;
 
@@ -62,8 +63,6 @@ const HomePage = () => {
 
     return result;
   };
-
-
 
   return (
     <Layout>

@@ -1,5 +1,5 @@
 class Injury {
-  static successRate = 0.9;
+  static successRate = 0.85;
 
   static get types() {
     return {
@@ -7,6 +7,12 @@ class Injury {
       CUT: 'Cut',
     };
   }
+
+  static getConfidenceStatus(rate) {
+    if (rate >= 0.85) return "High";
+    if (rate >=0.75) return "Moderate";
+    return "Low - Please try another picture";
+  };
 
   static getInstructions(type) {
     switch (type) {
