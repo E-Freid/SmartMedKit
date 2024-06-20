@@ -96,6 +96,25 @@ class AdminUser {
       // TODO: handle errors
     }
   }
+
+  async getKitCompartmentsList(kitId) {
+    try {
+      const response = await this.api.get('/kit_compartments');
+      return response.data.filter(compartment => compartment.kit_id === Number(kitId));
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getKitMeasurements(kitId) {
+    try {
+      const response = await this.api.get('/measurements');
+      console.log({response})
+      return response.data.filter(measurement => measurement.kit_id === Number(kitId));
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 const instance = new AdminUser();
