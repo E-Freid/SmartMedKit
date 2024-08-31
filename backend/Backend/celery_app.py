@@ -49,6 +49,8 @@ def notify_admins():
                 if is_kit_empty(kit.id):
                     kits_to_notify.add(kit.id)
 
+            admins = []
+
             for kit_id in kits_to_notify:
                 kit = KitModel.query.get(kit_id)
 

@@ -13,7 +13,7 @@ def make_celery(app):
     celery.conf.beat_schedule = {
         'notify-admins-every-5-minutes': {
             'task': 'notify_admins',
-            'schedule': crontab(minute='*/1'),
+            'schedule': crontab(minute='*/5'),
         },
     }
     celery.conf.timezone = 'UTC'
