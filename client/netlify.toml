@@ -1,5 +1,5 @@
 [build]
-publish = "build" # Change this to your build folder name if different
+publish = "build"
 
 [[redirects]]
 from = "/*"
