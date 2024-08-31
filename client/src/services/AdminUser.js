@@ -1,11 +1,9 @@
-import axios from "axios";
+import api from '../api';
 
 class AdminUser {
   constructor() {
     if (!AdminUser.instance) {
-      this.api = axios.create({ //temp solution - need to solve issue with config
-        baseURL: "http://127.0.0.1:5000",
-      });
+      this.api = api;
       AdminUser.instance = this;
     }
     return AdminUser.instance;
