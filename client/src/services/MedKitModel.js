@@ -1,11 +1,10 @@
-import axios from "axios";
+// import axios from "axios";
+import api from '../api';
 
 class MedKitModel {
   constructor() {
     if (!MedKitModel.instance) {
-      this.api = axios.create({ //temp solution - need to solve issue with config
-        baseURL: "http://127.0.0.1:5000",
-      });
+      this.api = api
       MedKitModel.instance = this;
     }
     return MedKitModel.instance;
