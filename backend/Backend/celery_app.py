@@ -51,13 +51,20 @@ def notify_admins():
 
             admins = []
 
+            current_unix_time = int(datetime.datetime.utcnow().timestamp())
+
             for kit_id in kits_to_notify:
                 kit = KitModel.query.get(kit_id)
 
                 admins = kit.admins
-                admins = [admin for admin in admins if not any(notification.timestamp > datetime.datetime.utcnow() - datetime.timedelta(minutes=30) for notification in admin.notifications)]
+                admins = [
+                    admin for admin in admins if not any(
+                        notification.timestamp > current_unix_time - 30 * 60
+                        for notification in admin.notifications
+                    )
+                ]
 
-                notification = NotificationModel(timestamp=datetime.datetime.utcnow())
+                notification = NotificationModel(timestamp=current_unix_time)
                 notification.kits.append(kit)
 
                 for admin in admins:
