@@ -11,6 +11,7 @@ class AdminUser {
 
   async login(values) {
     try {
+      values.email = values.email.toLowerCase();
       const response = await this.api.post('/admin/authorize', values);
       return response.data; //User Data
     } catch (error) {
