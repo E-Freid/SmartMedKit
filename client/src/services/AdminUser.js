@@ -29,6 +29,15 @@ class AdminUser {
     }
   }
 
+  async getAdminKitsList(adminId) {
+    try {
+      const { data: kits } = await this.api.get('/kit');
+      return kits.filter(kit => kit.admins.some(admin => admin.id === adminId));
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   async addKit(adminId, kitId) {
     try {
       const payload = { kit_id: Number(kitId), admin_id: Number(adminId) };
@@ -100,6 +109,15 @@ class AdminUser {
     try {
       const response = await this.api.get('/kit_compartments');
       return response.data.filter(compartment => compartment.kit_id === Number(kitId));
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getCompartmentsList() {
+    try {
+      const response = await this.api.get('/kit_compartments');
+      return response.data;
     } catch (error) {
       throw error;
     }

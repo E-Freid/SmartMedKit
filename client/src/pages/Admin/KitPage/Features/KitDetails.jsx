@@ -32,8 +32,10 @@ const KitDetails = ({ kitId }) => {
 
   const handleKitDelete = async () => {
     try {
-      await AdminUser.removeKit(user.id, kitId);
-      navigate('/admin/kits')
+      if (window.confirm('Are you sure you want to delete this kit?')) {
+        await AdminUser.removeKit(user.id, kitId);
+        navigate('/admin/kits')
+      }
     } catch (error) {
       console.error(error);
     }
