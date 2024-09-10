@@ -126,7 +126,7 @@ try:
         print(weight, 'g')
         send_json(2, weight)
 
-        time.sleep(2)
+        time.sleep(29)
 
 except (KeyboardInterrupt, SystemExit):
     print('Bye :)')
