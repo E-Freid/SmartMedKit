@@ -13,6 +13,17 @@ const Dashboard = () => {
   const [kitsData, setKitsData] = useState([]);
   const [totalStats, setTotalStats] = useState({});
 
+  const handleKitDelete = async (kitId) => {
+    try {
+      if (window.confirm('Are you sure you want to delete this kit?')) {
+        await AdminUser.removeKit(adminData.id, kitId);
+        setKitsData((prevKits) => prevKits.filter((kit) => kit.id !== kitId));
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       const adminKits = await AdminUser.getAdminKitsList(adminData.id);
@@ -36,34 +47,23 @@ const Dashboard = () => {
       setKitsData(adminKits);
     }
     fetchData();
-  }, []);
+  }, [adminData.id]);
 
   useEffect(() => {
+    // Helper function to calculate total stats
+    const calculateDashboardStats = (adminData) => {
+      const totalKits = adminData.kits.length;
+      const totalCompartments = kitsData.filter(kit => kit.admins.some(admin => adminData.id === admin.id))
+        .reduce((sum, kit) => sum + kit.compartments.length, 0);
+
+      return { totalKits, totalCompartments };
+    };
+
     if (adminData && kitsData.length) {
       const stats = calculateDashboardStats(adminData);
       setTotalStats(stats);
     }
   }, [adminData, kitsData]);
-
-  // Helper function to calculate total stats
-  const calculateDashboardStats = (adminData) => {
-    const totalKits = adminData.kits.length;
-    const totalCompartments = kitsData.filter(kit => kit.admins.some(admin => adminData.id === admin.id))
-      .reduce((sum, kit) => sum + kit.compartments.length, 0);
-
-    return { totalKits, totalCompartments };
-  };
-
-  const handleKitDelete = async (kitId) => {
-    try {
-      if (window.confirm('Are you sure you want to delete this kit?')) {
-        await AdminUser.removeKit(adminData.id, kitId);
-        setKitsData((prevKits) => prevKits.filter((kit) => kit.id !== kitId));
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   const stackedBarData = {
     labels: kitsData.map(kit => kit.name),
