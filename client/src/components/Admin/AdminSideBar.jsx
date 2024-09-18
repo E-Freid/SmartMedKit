@@ -19,8 +19,8 @@ const AdminSideBar = () => {
           </Offcanvas.Header>
           <Offcanvas.Body>
             <Nav className="flex-column">
+              <NavLink to="/admin" end className="nav-link">Dashboard</NavLink>
               <NavLink to="/admin/kits" className="nav-link">My Kits</NavLink>
-              <NavLink to="/admin/dashboard" className="nav-link">Dashboard</NavLink>
             </Nav>
           </Offcanvas.Body>
         </Navbar.Offcanvas>

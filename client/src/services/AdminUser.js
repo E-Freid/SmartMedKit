@@ -11,6 +11,7 @@ class AdminUser {
 
   async login(values) {
     try {
+      values.email = values.email.toLowerCase();
       const response = await this.api.post('/admin/authorize', values);
       return response.data; //User Data
     } catch (error) {
@@ -25,6 +26,15 @@ class AdminUser {
       }
 
       throw(resultObj);
+    }
+  }
+
+  async getAdminKitsList(adminId) {
+    try {
+      const { data: kits } = await this.api.get('/kit');
+      return kits.filter(kit => kit.admins.some(admin => admin.id === adminId));
+    } catch (error) {
+      console.error(error);
     }
   }
 
@@ -99,6 +109,15 @@ class AdminUser {
     try {
       const response = await this.api.get('/kit_compartments');
       return response.data.filter(compartment => compartment.kit_id === Number(kitId));
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getCompartmentsList() {
+    try {
+      const response = await this.api.get('/kit_compartments');
+      return response.data;
     } catch (error) {
       throw error;
     }

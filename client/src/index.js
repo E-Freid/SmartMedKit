@@ -15,6 +15,7 @@ import {
   Title,
   Tooltip,
   Legend,
+  BarElement
 } from 'chart.js';
 
 ChartJS.register(
@@ -24,7 +25,8 @@ ChartJS.register(
   LineElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  BarElement
 );
 
 
