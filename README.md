@@ -30,3 +30,6 @@ SmartMedKit's functionality relies on a stable internet connection, compatibilit
 - **Containerization:** Docker
 - **Cloud Services:** Google Cloud Platform (Backend) & Netlify (Client)
 - **Hardware:** Raspberry Pi OS, weight sensors with HX711 Amps
+
+## How To Run
+Each domain has its own instruction, go into one of the domains (for exmaple, backend) and read the README file for further instructions.
