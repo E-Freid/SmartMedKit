@@ -25,8 +25,8 @@ SmartMedKit's functionality relies on a stable internet connection, compatibilit
 ## Technology Stack
 - **Backend:** Python, Flask
 - **Frontend:** React
-- **Database:** PostgreSQL
+- **Database:** SQLite
 - **Machine Learning:** TensorFlow, OpenCV
 - **Containerization:** Docker
-- **Cloud Services:** AWS/Google Cloud
+- **Cloud Services:** Google Cloud Platform (Backend) & Netlify (Client)
 - **Hardware:** Raspberry Pi OS, weight sensors with HX711 Amps
